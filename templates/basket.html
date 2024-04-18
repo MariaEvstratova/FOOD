@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+    .hystmodal__wrap {
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 100%;
+    min-height: 100%;
+    margin: auto;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+}
+.hystmodal__window {
+    margin: 50px 0;
+    flex-shrink: 0;
+    flex-grow: 0;
+    background: #fff;
+    width: 600px;
+    max-width: 100%;
+    overflow: visible;
+    transition: transform 0.2s ease 0s, opacity 0.2s ease 0s;
+    transform: scale(0.9);
+    opacity: 0;
+}
+
+.hystmodal--active{
+    visibility: visible;
+}
+.hystmodal--active .hystmodal__window{
+    transform: scale(1);
+    opacity: 1;
+}
+
+</style>
+{#<body>#}
+{#<div class="hystmodal" id="myModal" aria-hidden="true" >#}
+{#    <div class="hystmodal__wrap">#}
+{#        <div class="hystmodal__window" role="dialog" aria-modal="true" >#}
+{#            <button data-hystclose class="hystmodal__close">Close</button>#}
+{#            <h1>Заголовок модального окна</h1>#}
+{#            <p>Текст модального окна ...</p>#}
+{#            <img src="img/photo.jpg" alt="Изображение" width="400" />#}
+{#            <p>Ещё текст модального окна ...</p>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+<!-- Кнопка-триггер модального окна -->
+<button type="button" class="btn btn-primary" id="modal-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Запустите демо модального окна
+</button>
+<!-- Модальное окно -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Заголовок модального окна</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-primary">Сохранить изменения</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="MyLoads" src="{{url_for('static', filename="script1.js")}}"></script>
+
+{#</body>#}
+{#    {% for item in food %}#}
+{#        {% if item.id == idd %}#}
+{#            <div class="text-">#}
+{#                <img src="{{ url_for('static', filename=item.image) }}" width="600" height="600" alt="...">#}
+{#                <h1 style="font-size: 50px">{{ item.name }}</h1>#}
+{#                <h4 style="font-size: 30px">Состав</h4>#}
+{#                <h5 style="font-size: 30px">{{ item.about }}</h5>#}
+{#            </div>#}
+{#            <div class="modal">#}
+{#  <div class="modal__content">#}
+{#    <button class="modal__close-button"><img src="./img/close.svg" width="18" alt=""></button>#}
+{#    <!-- Контент модального окна -->#}
+{#    <h1 class="modal__title">Контент для примера</h1>#}
+{#    <p class="modal__description">Статья с уроком - <a href="/kak-sdelat-modalnoe-okno-na-sajte.html">тут</a>.</p>#}
+{#  </div>#}
+{#</div>#}
+            {#<div class="card mb-3" style="max-width: 1500px;">#}
+            {#  <div class="row g-0">#}
+            {#    <div class="col-md-4">#}
+            {#      <img src="{{url_for('static', filename=item.image)}}" class="card-img-top" alt="...">#}
+            {#    </div>#}
+            {#    <div class="col-md-8">#}
+            {#      <div class="card-body">#}
+            {#        <h1 class="card-title">{{item.name}}</h1>#}
+            {#        <h3 class="card-text">Состав:</h3>#}
+            {#        <h5 class="card-text">{{item.about}}</h5>#}
+            {#          <a href="/" class="btn btn-primary">Купить</a>#}
+            {#      </div>#}
+            {#    </div>#}
+            {#  </div>#}
+            {#</div>#}
+{#        {% endif %}#}
+{#    {% endfor %}#}
+{% endblock %}

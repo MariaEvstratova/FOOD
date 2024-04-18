@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <head>
+        <style type="text/css">
+            TD.leftcol {
+                width: 110px; /* Ширина левой колонки с рисунком */
+                vertical-align: top; /* Выравнивание по верхнему краю */
+            }
+            .btn btn-primary {
+                width: 150px;
+                height: 90px;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="text-center">
+  <h5 style="font-size: 60px">{{ food.name }}</h5>
+</div>
+    <table width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="leftcol"><img class="rounded" src="{{ url_for('static', filename=food.image) }}" width="500" height="500"
+                                     alt="..."></td>
+            <td valign="top">
+                <table width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td style="font-size: 50px">{{ food.price }}</td>
+                        <td style="font-size: 50px">{{ form.submit(type="submit", class="btn btn-primary btn-lg") }}</td>
+                    </tr>
+                </table>
+                <h4 style="font-size: 30px">{{ message }}</h4>
+                <h4 style="font-size: 45px">О продукте:</h4>
+                <h4 style="font-size: 40px">Состав</h4>
+                <h4 style="font-size: 35px">{{ food.about }}</h4>
+            </td>
+        </tr>
+    </table>
+    </body>
+{% endblock %}

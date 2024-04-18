@@ -1,270 +1,428 @@
 {% extends "base.html" %}
 
 {% block content %}
-{#    <div class="p-3 mb-2 bg-primary-subtle text-primary-emphasis" style="text-align: center; font-size: 80px;">Доставка еды</div>#}
-<h1 class="text-center" style="font-size: 80px">Доставка еды</h1>
-<style>
-    html {
-      font-family: sans-serif;
-    }
+    {#    <div class="p-3 mb-2 bg-primary-subtle text-primary-emphasis" style="text-align: center; font-size: 80px;">Доставка еды</div>#}
+    <h1 class="text-center" style="font-size: 80px">Доставка еды</h1>
+    <style>
+        html {
+            font-family: sans-serif;
+        }
 
-    * {box-sizing:border-box}
+        * {
+            box-sizing: border-box
+        }
 
-/* Slideshow container */
-.slideshow-container {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
-}
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
 
-/* Hide the images by default */
-.mySlides {
-    display: none;
-}
+        /* Slideshow container */
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+        }
 
-/* Next & previous buttons */
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  margin-top: -22px;
-  padding: 16px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-}
+        /* Hide the images by default */
+        .mySlides {
+            display: none;
+        }
 
-/* Position the "next button" to the right */
-.next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
+        /* Next & previous buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+        }
 
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
-}
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
 
-/* Caption text */
-.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-}
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
 
-/* Number text (1/3 etc) */
-.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
 
-/* The dots/bullets/indicators */
-.dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-}
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
 
-.active, .dot:hover {
-  background-color: #717171;
-}
+        /* The dots/bullets/indicators */
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
 
-/* Fading animation */
-.fade {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
+        /* Fading animation */
+        .fade {
+            -webkit-animation-name: fade;
+            -webkit-animation-duration: 1.5s;
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
 
-@-webkit-keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
-}
+        @-webkit-keyframes fade {
+            from {
+                opacity: .4
+            }
+            to {
+                opacity: 1
+            }
+        }
 
-@keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
-}
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
+            to {
+                opacity: 1
+            }
+        }
 
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .prev, .next,.text {font-size: 11px}
-}
+        /* On smaller screens, decrease text size */
+        @media only screen and (max-width: 300px) {
+            .prev, .next, .text {
+                font-size: 11px
+            }
+        }
 
-    .card {
-  display: inline-block;
-  margin: 16px;
-}
+        .card {
+            display: inline-block;
+            margin: 16px;
+        }
     </style>
-{#{% if current_user.is_authenticated %}#}
-{#    <a href="/jobs" class="btn btn-primary" style="font-size: 25px">Add job</a>#}
-{#{% endif %}#}
-{#{% for item in jobs%}#}
-{#    <h2 style="font-size: 35px;">Activity # {{item.id}}</h2>#}
-{#{% if current_user.is_authenticated and current_user == item.user %}#}
-{#    <div>#}
-{#        <a href="/jobs/{{ item.id }}" class="btn btn-warning" style="font-size: 25px">#}
-{#            Edit#}
-{#        </a>#}
-{#        <a href="/jobs_delete/{{ item.id }}" class="btn btn-danger" style="font-size: 25px">#}
-{#            Delete#}
-{#        </a>#}
-{#    </div>#}
-{#{% endif %}#}
+    {#{% if current_user.is_authenticated %}#}
+    {#    <a href="/jobs" class="btn btn-primary" style="font-size: 25px">Add job</a>#}
+    {#{% endif %}#}
+    {#{% for item in jobs%}#}
+    {#    <h2 style="font-size: 35px;">Activity # {{item.id}}</h2>#}
+    {#{% if current_user.is_authenticated and current_user == item.user %}#}
+    {#    <div>#}
+    {#        <a href="/jobs/{{ item.id }}" class="btn btn-warning" style="font-size: 25px">#}
+    {#            Edit#}
+    {#        </a>#}
+    {#        <a href="/jobs_delete/{{ item.id }}" class="btn btn-danger" style="font-size: 25px">#}
+    {#            Delete#}
+    {#        </a>#}
+    {#    </div>#}
+    {#{% endif %}#}
     <!-- Slideshow container -->
-<div class="slideshow-container">
-  <div class="mySlides">
-    <div class="numbertext">1 / 3</div>
-    <img src="{{url_for('static', filename='img/pic1.jpeg')}}" alt="здесь должна была быть картинка, но не нашлась" style="width:100%">
-    <div class="text"></div>
-  </div>
+    <div class="slideshow-container">
+        <div class="mySlides">
+            <div class="numbertext">1 / 3</div>
+            <img src="{{ url_for('static', filename='img/pic1.jpeg') }}"
+                 alt="здесь должна была быть картинка, но не нашлась" style="width:100%">
+            <div class="text"></div>
+        </div>
 
-  <div class="mySlides">
-    <div class="numbertext">2 / 3</div>
-    <img src="{{url_for('static', filename='img/pic2.jpeg')}}" alt="здесь должна была быть картинка, но не нашлась" style="width:100%">
-    <div class="text"></div>
-  </div>
+        <div class="mySlides">
+            <div class="numbertext">2 / 3</div>
+            <img src="{{ url_for('static', filename='img/pic2.jpeg') }}"
+                 alt="здесь должна была быть картинка, но не нашлась" style="width:100%">
+            <div class="text"></div>
+        </div>
 
-  <div class="mySlides">
-    <div class="numbertext">3 / 3</div>
-    <img src="{{url_for('static', filename='img/pic3.jpeg')}}" alt="здесь должна была быть картинка, но не нашлась" style="width:100%">
-    <div class="text"></div>
- </div>
+        <div class="mySlides">
+            <div class="numbertext">3 / 3</div>
+            <img src="{{ url_for('static', filename='img/pic3.jpeg') }}"
+                 alt="здесь должна была быть картинка, но не нашлась" style="width:100%">
+            <div class="text"></div>
+        </div>
 
-<a class="prev" onclick="plusSlides(-1)">❮</a>
-<a class="next" onclick="plusSlides(1)">❯</a>
+        <a class="prev" onclick="plusSlides(-1)">❮</a>
+        <a class="next" onclick="plusSlides(1)">❯</a>
 
-</div>
-<br>
+    </div>
+    <br>
 
-<div style="text-align:center">
-  <span class="dot" onclick="currentSlide(1)"></span>
-  <span class="dot" onclick="currentSlide(2)"></span>
-  <span class="dot" onclick="currentSlide(3)"></span>
-</div>
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
 
-<script>
-var slideIndex = 1;
-showSlides(slideIndex);
+    <script>
+        var slideIndex = 1;
+        showSlides(slideIndex);
 
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
 
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
 
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active";
-}
-</script>
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            if (n > slides.length) {
+                slideIndex = 1
+            }
+            if (n < 1) {
+                slideIndex = slides.length
+            }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+        }
+    </script>
     <h1 class="text-center" style="font-size: 80px" id="menu">Меню</h1>
-<h1 class="text-center" style="font-size: 55px" id="salads">Салаты</h1>
-{% for item in food%}
-    {% if item.type == 'салат'%}
-<div class="card" style="width: 15rem;">
-  <img src="{{url_for('static', filename=item.image)}}" alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
-{#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
-  <div class="card-body">
-    <h5 class="card-title">{{item.name}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
-    <p class="card-text">{{item.about}}</p>
-    <a href="#" class="btn btn-primary">{{item.price}}</a>
-  </div>
-</div>
-    {% endif %}
-{% endfor %}
+    <h1 class="text-center" style="font-size: 55px" id="salads">Салаты</h1>
+    {% for item in food %}
+        {% if item.type == 'салат' %}
+            {% set a = item.name + "0" %}
+            {% set b = '#' + item.name + "0" %}
+            <div class="card" style="width: 15rem;">
+                <img src="{{ url_for('static', filename=item.image) }}"
+                     alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
+                    <p class="card-text">{{ item.about }}</p>
+                    <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+                </div>
+            </div>
 
-<h1 class="text-center" style="font-size: 55px" id="hot">Горячее</h1>
-{% for item in food%}
-    {% if item.type == 'горячее'%}
-<div class="card" style="width: 15rem;">
-  <img src="{{url_for('static', filename=item.image)}}" alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
-{#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
-  <div class="card-body">
-    <h5 class="card-title">{{item.name}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
-    <p class="card-text">{{item.about}}</p>
-    <a href="#" class="btn btn-primary">{{item.price}}</a>
-  </div>
-</div>
-    {% endif %}
-{% endfor %}
+            <!-- Модальное окно -->
+{#            <div class="modal fade" id="{{ a }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">#}
+{#                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">#}
+{#                    <div class="modal-content">#}
+{#                        <div class="modal-header">#}
+{#                            <h1 class="modal-title fs-5" style="font-size: 45px; text-align: center"#}
+{#                                id="exampleModalLabel">{{ item.name }}</h1>#}
+{#                            <button type="button" class="btn-close" data-bs-dismiss="modal"#}
+{#                                    aria-label="Закрыть"></button>#}
+{#                        </div>#}
+{#                        <div class="modal-body">#}
+{#                            <img src="{{ url_for('static', filename=item.image) }}"#}
+{#                                 alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">#}
+{#                            <h1 style="font-size: 35px">Состав:</h1>#}
+{#                            <h1 style="font-size: 25px">{{ item.about }}</h1>#}
+{#                        </div>#}
+{#                        <div class="modal-footer">#}
+{#                            <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть#}
+{#                            </button>#}
+{#                            {% set id = item.id %}#}
+{#                            form.id = item.id#}
+{#                            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>#}
+{#                            <button id="{{ item.id }}" type="button" class="btn btn-primary">В корзину</button>#}
+{#                            <div>{{ message }}</div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <script id="script" data-src="{{ item.name }}" src="{{ url_for('static', filename="script1.js") }}"></script>#}
+            {#        <script id="script" type="text/javascript" src="{{url_for('static', filename=a)}}"></script>#}
+{#            <script src="{{url_for('static', filename="script1.js")}}"></script>#}
+            {#        <script>const myModal = document.getElementById('exampleModal')#}
+            {#const myButton = document.getElementById(item.name)#}
+            {##}
+            {#console.log(myModal)#}
+            {#console.log(myButton)#}
+            {##}
+            {#myButton.addEventListener('click', () => {#}
+            {#    myModal.style.display = 'block';#}
+            {#    console.log('click')#}
+            {#    myModal.style.opacity = '1'#}
+{#            })</script>#}
+        {% endif %}
+    {% endfor %}
 
-<h1 class="text-center" style="font-size: 55px" id="soups">Супы</h1>
-{% for item in food%}
-    {% if item.type == 'суп'%}
-<div class="card" style="width: 15rem;">
-  <img src="{{url_for('static', filename=item.image)}}" alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
-{#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
-  <div class="card-body">
-    <h5 class="card-title">{{item.name}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
-    <p class="card-text">{{item.about}}</p>
-    <a href="#" class="btn btn-primary">{{item.price}}</a>
-  </div>
-</div>
-    {% endif %}
-{% endfor %}
+    <h1 class="text-center" style="font-size: 55px" id="hot">Горячее</h1>
+    {% for item in food %}
+        {% if item.type == 'горячее' %}
+            <div class="card" style="width: 15rem;">
+                <img src="{{ url_for('static', filename=item.image) }}"
+                     alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
+                {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
+                      <p class="card-text">{{ item.about }}</p>
+                    <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+                </div>
+            </div>
+{##}
+{#            <!-- Модальное окно -->#}
+{#            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"#}
+{#                 aria-hidden="true">#}
+{#                <div class="modal-dialog modal-dialog-centered">#}
+{#                    <div class="modal-content">#}
+{#                        <div class="modal-header">#}
+{#                            <h1 class="modal-title fs-5" id="exampleModalLabel">Заголовок модального окна</h1>#}
+{#                            <button type="button" class="btn-close" data-bs-dismiss="modal"#}
+{#                                    aria-label="Закрыть"></button>#}
+{#                        </div>#}
+{#                        <div class="modal-body">#}
+{#                            ...#}
+{#                        </div>#}
+{#                        <div class="modal-footer">#}
+{#                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>#}
+{#                            <button type="button" class="btn btn-primary">Сохранить изменения</button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <script src="{{ url_for('static', filename="script1.js") }}"></script>#}
+        {% endif %}
+    {% endfor %}
 
-<h1 class="text-center" style="font-size: 55px" id="deserts">Десерты</h1>
-{% for item in food%}
-    {% if item.type == 'десерт'%}
-<div class="card" style="width: 15rem;">
-  <img src="{{url_for('static', filename=item.image)}}" alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
-{#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
-  <div class="card-body">
-    <h5 class="card-title">{{item.name}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
-    <p class="card-text">{{item.about}}</p>
-    <a href="#" class="btn btn-primary">{{item.price}}</a>
-  </div>
-</div>
-    {% endif %}
-{% endfor %}
+    <h1 class="text-center" style="font-size: 55px" id="soups">Супы</h1>
+    {% for item in food %}
+        {% if item.type == 'суп' %}
+            <div class="card" style="width: 15rem;">
+                <img src="{{ url_for('static', filename=item.image) }}"
+                     alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
+                {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
+                     <p class="card-text">{{ item.about }}</p>
+                    <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+                </div>
+            </div>
 
-<h1 class="text-center" style="font-size: 55px" id="drinks">Напитки</h1>
-{% for item in food%}
-    {% if item.type == 'напиток'%}
-<div class="card" style="width: 15rem;">
-  <img src="{{url_for('static', filename=item.image)}}" alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
-{#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
-  <div class="card-body">
-    <h5 class="card-title">{{item.name}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
-    <p class="card-text">{{item.about}}</p>
-    <a href="#" class="btn btn-primary">{{item.price}}</a>
-  </div>
-</div>
-    {% endif %}
-{% endfor %}
+            <!-- Модальное окно -->
+{#            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"#}
+{#                 aria-hidden="true">#}
+{#                <div class="modal-dialog modal-dialog-centered">#}
+{#                    <div class="modal-content">#}
+{#                        <div class="modal-header">#}
+{#                            <h1 class="modal-title fs-5" id="exampleModalLabel">Заголовок модального окна</h1>#}
+{#                            <button type="button" class="btn-close" data-bs-dismiss="modal"#}
+{#                                    aria-label="Закрыть"></button>#}
+{#                        </div>#}
+{#                        <div class="modal-body">#}
+{#                            ...#}
+{#                        </div>#}
+{#                        <div class="modal-footer">#}
+{#                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>#}
+{#                            <button type="button" class="btn btn-primary">Сохранить изменения</button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <script src="{{ url_for('static', filename="script1.js") }}"></script>#}
+        {% endif %}
+    {% endfor %}
+
+    <h1 class="text-center" style="font-size: 55px" id="deserts">Десерты</h1>
+    {% for item in food %}
+        {% if item.type == 'десерт' %}
+            <div class="card" style="width: 15rem;">
+                <img src="{{ url_for('static', filename=item.image) }}"
+                     alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
+                {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
+                    <p class="card-text">{{ item.about }}</p>
+                    <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+                </div>
+            </div>
+{##}
+{#            <!-- Модальное окно -->#}
+{#            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"#}
+{#                 aria-hidden="true">#}
+{#                <div class="modal-dialog modal-dialog-centered">#}
+{#                    <div class="modal-content">#}
+{#                        <div class="modal-header">#}
+{#                            <h1 class="modal-title fs-5" id="exampleModalLabel">Заголовок модального окна</h1>#}
+{#                            <button type="button" class="btn-close" data-bs-dismiss="modal"#}
+{#                                    aria-label="Закрыть"></button>#}
+{#                        </div>#}
+{#                        <div class="modal-body">#}
+{#                            ...#}
+{#                        </div>#}
+{#                        <div class="modal-footer">#}
+{#                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>#}
+{#                            <button type="button" class="btn btn-primary">Сохранить изменения</button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <script src="{{ url_for('static', filename="script1.js") }}"></script>#}
+        {% endif %}
+    {% endfor %}
+
+    <h1 class="text-center" style="font-size: 55px" id="drinks">Напитки</h1>
+    {% for item in food %}
+        {% if item.type == 'напиток' %}
+            <div class="card" style="width: 15rem;">
+                <img src="{{ url_for('static', filename=item.image) }}"
+                     alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
+                {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
+                                <p class="card-text">{{ item.about }}</p>
+                    <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+                </div>
+            </div>
+
+            <!-- Модальное окно -->
+{#            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"#}
+{#                 aria-hidden="true">#}
+{#                <div class="modal-dialog modal-dialog-centered">#}
+{#                    <div class="modal-content">#}
+{#                        <div class="modal-header">#}
+{#                            <h1 class="modal-title fs-5" id="exampleModalLabel">Заголовок модального окна</h1>#}
+{#                            <button type="button" class="btn-close" data-bs-dismiss="modal"#}
+{#                                    aria-label="Закрыть"></button>#}
+{#                        </div>#}
+{#                        <div class="modal-body">#}
+{#                            ...#}
+{#                        </div>#}
+{#                        <div class="modal-footer">#}
+{#                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>#}
+{#                            <button type="button" class="btn btn-primary">Сохранить изменения</button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <script src="{{ url_for('static', filename="script1.js") }}"></script>#}
+        {% endif %}
+    {% endfor %}
 {% endblock %}

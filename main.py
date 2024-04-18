@@ -11,7 +11,7 @@ from flask_restful import reqparse, abort, Api
 
 
 def main():
-    app = Flask ( __name__ )
+    app = Flask(__name__)
 
     app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
     db_session.global_init("db/blogs1.db")
@@ -49,14 +49,32 @@ def main():
 
     @app.route("/")
     def index():
+        form = FoodForm()
+        id = 1
         db_sess = db_session.create_session()
-        if current_user.is_authenticated:
-            userr = db_sess.query(User).all()
-            food = db_sess.query(Food).all()
-        else:
-            userr = db_sess.query(User).all()
-            food = db_sess.query(Food).all()
-        return render_template("index.html", food=food, user=userr)
+        userr = db_sess.query(User).all()
+        food = db_sess.query(Food).all()
+        return render_template("index.html", food=food, user=userr, form=form, id=id)
+
+    @app.route("/food/<int:id>")
+    def food(id):
+        form = FoodForm()
+        db_sess = db_session.create_session()
+        userr = db_sess.query(User).all()
+        food = db_sess.query(Food).filter(Food.id == id).first()
+        if form.validate_on_submit():
+            db_sess = db_session.create_session()
+            if current_user.is_authenticated:
+                user = db_sess.query(User).filter(User.id == current_user.id).first()
+                user.basket = str(id)
+                db_sess.commit()
+                return render_template('buy.html',
+                                       message="Добавлено в корзину",
+                                       form=form, user=userr, food=food, id=id)
+            return render_template('buy.html',
+                                   message="Сначала войдите в систему",
+                                   form=form, user=userr, food=food, id=id)
+        return render_template("buy.html", message='', food=food, user=userr, form=form, id=id)
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
@@ -121,27 +139,11 @@ def main():
         logout_user()
         return redirect("/")
 
-    @app.route('/food/<int:id>', methods=['GET', 'POST'])
-    @login_required
-    def edit_jobs(id):
-        form = FoodForm()
-        if request.method == "GET":
-            db_sess = db_session.create_session()
-            userr = 0
-            for i in db_sess.query(User).filter(User.id == 1):
-                userr = i
-            jobs = db_sess.query(Food).filter((Food.id == id), ((Food.user == userr) |
-                                                                (Food.user == current_user))
-                                              ).first()
-            if jobs:
-                form.title.data = jobs.job
-                form.team_leader.data = jobs.team_leader
-                k = jobs.work_size
-                form.work_size.data = str(k)
-                form.collaborators.data = jobs.collaborators
-                form.is_finished.data = jobs.is_finished
-            else:
-                abort(404)
+    @app.route('/basket')
+    def edit_jobs():
+        db_sess = db_session.create_session()
+        food = db_sess.query(Food).all()
+        userr = db_sess.query(User).all()
         # if form.validate_on_submit():
         #     db_sess = db_session.create_session()
         #     userr = 0
@@ -161,10 +163,8 @@ def main():
         #         return redirect('/')
         #     else:
         #         abort(404)
-        return render_template('jobs.html',
-                               title='Buy',
-                               form=form
-                               )
+        return render_template('basket.html',
+                               food=food, user=userr)
     #
     # @app.route('/jobs/<int:id>', methods=['GET', 'POST'])
     # @login_required
