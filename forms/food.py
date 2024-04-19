@@ -6,5 +6,4 @@ from wtforms.validators import DataRequired
 
 class FoodForm(FlaskForm):
     title = StringField('Purchase', validators=[DataRequired()])
-    id = 0
     submit = SubmitField('Добавить в корзину')

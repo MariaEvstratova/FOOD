@@ -7,33 +7,51 @@
                 width: 110px; /* Ширина левой колонки с рисунком */
                 vertical-align: top; /* Выравнивание по верхнему краю */
             }
+
             .btn btn-primary {
                 width: 150px;
                 height: 90px;
+            }
+
+            .white-space-pre {
+                white-space: pre; /* Сохраняем каждый пробел */
             }
         </style>
     </head>
     <body>
     <div class="text-center">
-  <h5 style="font-size: 60px">{{ food.name }}</h5>
-</div>
+        <h5 style="font-size: 60px">{{ food.name }}</h5>
+        <br/>
+    </div>
     <table width="100%" cellspacing="0" cellpadding="0">
         <tr>
-            <td class="leftcol"><img class="rounded" src="{{ url_for('static', filename=food.image) }}" width="500" height="500"
+            <td class="leftcol"><img class="rounded" src="{{ url_for('static', filename=food.image) }}" width="500"
+                                     height="500"
                                      alt="..."></td>
+            <td class="white-space-pre">          </td>
             <td valign="top">
                 <table width="100%" cellspacing="0" cellpadding="0">
                     <tr>
                         <td style="font-size: 50px">{{ food.price }}</td>
-                        <td style="font-size: 50px">{{ form.submit(type="submit", class="btn btn-primary btn-lg") }}</td>
+                        <td style="font-size: 50px"></td>
                     </tr>
                 </table>
-                <h4 style="font-size: 30px">{{ message }}</h4>
+                <a class="btn btn-primary btn-lg" href="/basket/{{ id }}">Добавить в корзину</a>
+                <h4 class="white-space-pre">          </h4>
                 <h4 style="font-size: 45px">О продукте:</h4>
-                <h4 style="font-size: 40px">Состав</h4>
-                <h4 style="font-size: 35px">{{ food.about }}</h4>
+                <h4 style="font-size: 40px" class="card-subtitle mb-2 text-muted">Состав</h4>
+                <h4 style="font-size: 30px">{{ food.about }}</h4>
+                <br/>
+                <h4 style="font-size: 40px" class="card-subtitle mb-2 text-muted">Бренд</h4>
+                <h4 style="font-size: 30px">FoodExpress</h4>
+{#                <img src="{{ url_for('static', filename='img/with_love.png') }}" width="500" height="140"#}
+{#                     alt="...">#}
             </td>
         </tr>
     </table>
+    <h4 style="font-size: 45px">Отзывы</h4>
+    <br/>
+    <img src="{{ url_for('static', filename='img/stars.png') }}" width="300" height="60"
+         alt="...">
     </body>
 {% endblock %}

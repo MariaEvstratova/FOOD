@@ -58,23 +58,25 @@ def main():
 
     @app.route("/food/<int:id>")
     def food(id):
-        form = FoodForm()
         db_sess = db_session.create_session()
         userr = db_sess.query(User).all()
         food = db_sess.query(Food).filter(Food.id == id).first()
-        if form.validate_on_submit():
-            db_sess = db_session.create_session()
-            if current_user.is_authenticated:
-                user = db_sess.query(User).filter(User.id == current_user.id).first()
-                user.basket = str(id)
-                db_sess.commit()
-                return render_template('buy.html',
-                                       message="Добавлено в корзину",
-                                       form=form, user=userr, food=food, id=id)
-            return render_template('buy.html',
-                                   message="Сначала войдите в систему",
-                                   form=form, user=userr, food=food, id=id)
-        return render_template("buy.html", message='', food=food, user=userr, form=form, id=id)
+        return render_template("buy.html", food=food, user=userr, id=id)
+
+    @app.route("/basket/<int:id>")
+    def basket_id(id):
+        db_sess = db_session.create_session()
+        userr = db_sess.query(User).all()
+        food = db_sess.query(Food).all()
+        if current_user.is_authenticated:
+            user = db_sess.query(User).filter(User.id == current_user.id).first()
+            user.basket += ' ' + str(id)
+            db_sess.commit()
+            ids = user.basket.split()
+            ids = [int(i) for i in ids]
+            ids = ids[::-1]
+            return render_template("basket_id.html", ids=ids, food=food, user=userr, id=id)
+        return render_template("basket_id.html", message='', food=food, user=userr, id=id)
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
@@ -113,26 +115,6 @@ def main():
             return redirect('/login')
         return render_template('register.html', title='Регистрация', form=form)
 
-    # @app.route('/jobs', methods=['GET', 'POST'])
-    # @login_required
-    # def add_jobs():
-    #     form = JobsForm()
-    #     if form.validate_on_submit():
-    #         db_sess = db_session.create_session()
-    #         jobs = Jobs()
-    #         jobs.job = form.title.data
-    #         jobs.team_leader = form.team_leader.data
-    #         k = form.work_size.data
-    #         jobs.work_size = int(k)
-    #         jobs.collaborators = form.collaborators.data
-    #         jobs.is_finished = form.is_finished.data
-    #         current_user.jobs.append(jobs)
-    #         db_sess.merge(current_user)
-    #         db_sess.commit()
-    #         return redirect('/')
-    #     return render_template('jobs.html', title='Adding job',
-    #                            form=form)
-    #
     @app.route('/logout')
     @login_required
     def logout():
@@ -140,31 +122,15 @@ def main():
         return redirect("/")
 
     @app.route('/basket')
-    def edit_jobs():
+    def basket():
         db_sess = db_session.create_session()
         food = db_sess.query(Food).all()
         userr = db_sess.query(User).all()
-        # if form.validate_on_submit():
-        #     db_sess = db_session.create_session()
-        #     userr = 0
-        #     for i in db_sess.query(User).filter(User.id == 1):
-        #         userr = i
-        #     jobs = db_sess.query(Jobs).filter((Jobs.id == id), ((Jobs.user == userr) |
-        #                                                         (Jobs.user == current_user))
-        #                                       ).first()
-        #     if jobs:
-        #         jobs.job = form.title.data
-        #         jobs.team_leader = form.team_leader.data
-        #         k = form.work_size.data
-        #         jobs.work_size = int(k)
-        #         jobs.collaborators = form.collaborators.data
-        #         jobs.is_finished = form.is_finished.data
-        #         db_sess.commit()
-        #         return redirect('/')
-        #     else:
-        #         abort(404)
-        return render_template('basket.html',
-                               food=food, user=userr)
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        ids = user.basket.split()
+        ids = [int(i) for i in ids]
+        ids = ids[::-1]
+        return render_template("basket.html", ids=ids, food=food, user=userr)
     #
     # @app.route('/jobs/<int:id>', methods=['GET', 'POST'])
     # @login_required

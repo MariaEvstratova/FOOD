@@ -2,7 +2,7 @@
 
 {% block content %}
     {#    <div class="p-3 mb-2 bg-primary-subtle text-primary-emphasis" style="text-align: center; font-size: 80px;">Доставка еды</div>#}
-    <h1 class="text-center" style="font-size: 80px">Доставка еды</h1>
+    <h1 class="text-center" style="font-size: 80px">FoodExpress</h1>
     <style>
         html {
             font-family: sans-serif;
@@ -124,6 +124,11 @@
         .card {
             display: inline-block;
             margin: 16px;
+
+            .displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto }
         }
     </style>
     {#{% if current_user.is_authenticated %}#}
@@ -142,7 +147,7 @@
     {#    </div>#}
     {#{% endif %}#}
     <!-- Slideshow container -->
-    <div class="slideshow-container">
+    <div class="slideshow-container displayed">
         <div class="mySlides">
             <div class="numbertext">1 / 3</div>
             <img src="{{ url_for('static', filename='img/pic1.jpeg') }}"
@@ -224,49 +229,6 @@
                     <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
                 </div>
             </div>
-
-            <!-- Модальное окно -->
-{#            <div class="modal fade" id="{{ a }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">#}
-{#                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">#}
-{#                    <div class="modal-content">#}
-{#                        <div class="modal-header">#}
-{#                            <h1 class="modal-title fs-5" style="font-size: 45px; text-align: center"#}
-{#                                id="exampleModalLabel">{{ item.name }}</h1>#}
-{#                            <button type="button" class="btn-close" data-bs-dismiss="modal"#}
-{#                                    aria-label="Закрыть"></button>#}
-{#                        </div>#}
-{#                        <div class="modal-body">#}
-{#                            <img src="{{ url_for('static', filename=item.image) }}"#}
-{#                                 alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">#}
-{#                            <h1 style="font-size: 35px">Состав:</h1>#}
-{#                            <h1 style="font-size: 25px">{{ item.about }}</h1>#}
-{#                        </div>#}
-{#                        <div class="modal-footer">#}
-{#                            <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть#}
-{#                            </button>#}
-{#                            {% set id = item.id %}#}
-{#                            form.id = item.id#}
-{#                            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>#}
-{#                            <button id="{{ item.id }}" type="button" class="btn btn-primary">В корзину</button>#}
-{#                            <div>{{ message }}</div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <script id="script" data-src="{{ item.name }}" src="{{ url_for('static', filename="script1.js") }}"></script>#}
-            {#        <script id="script" type="text/javascript" src="{{url_for('static', filename=a)}}"></script>#}
-{#            <script src="{{url_for('static', filename="script1.js")}}"></script>#}
-            {#        <script>const myModal = document.getElementById('exampleModal')#}
-            {#const myButton = document.getElementById(item.name)#}
-            {##}
-            {#console.log(myModal)#}
-            {#console.log(myButton)#}
-            {##}
-            {#myButton.addEventListener('click', () => {#}
-            {#    myModal.style.display = 'block';#}
-            {#    console.log('click')#}
-            {#    myModal.style.opacity = '1'#}
-{#            })</script>#}
         {% endif %}
     {% endfor %}
 
@@ -284,28 +246,6 @@
                     <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
                 </div>
             </div>
-{##}
-{#            <!-- Модальное окно -->#}
-{#            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"#}
-{#                 aria-hidden="true">#}
-{#                <div class="modal-dialog modal-dialog-centered">#}
-{#                    <div class="modal-content">#}
-{#                        <div class="modal-header">#}
-{#                            <h1 class="modal-title fs-5" id="exampleModalLabel">Заголовок модального окна</h1>#}
-{#                            <button type="button" class="btn-close" data-bs-dismiss="modal"#}
-{#                                    aria-label="Закрыть"></button>#}
-{#                        </div>#}
-{#                        <div class="modal-body">#}
-{#                            ...#}
-{#                        </div>#}
-{#                        <div class="modal-footer">#}
-{#                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>#}
-{#                            <button type="button" class="btn btn-primary">Сохранить изменения</button>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <script src="{{ url_for('static', filename="script1.js") }}"></script>#}
         {% endif %}
     {% endfor %}
 
@@ -323,28 +263,6 @@
                     <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
                 </div>
             </div>
-
-            <!-- Модальное окно -->
-{#            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"#}
-{#                 aria-hidden="true">#}
-{#                <div class="modal-dialog modal-dialog-centered">#}
-{#                    <div class="modal-content">#}
-{#                        <div class="modal-header">#}
-{#                            <h1 class="modal-title fs-5" id="exampleModalLabel">Заголовок модального окна</h1>#}
-{#                            <button type="button" class="btn-close" data-bs-dismiss="modal"#}
-{#                                    aria-label="Закрыть"></button>#}
-{#                        </div>#}
-{#                        <div class="modal-body">#}
-{#                            ...#}
-{#                        </div>#}
-{#                        <div class="modal-footer">#}
-{#                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>#}
-{#                            <button type="button" class="btn btn-primary">Сохранить изменения</button>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <script src="{{ url_for('static', filename="script1.js") }}"></script>#}
         {% endif %}
     {% endfor %}
 
@@ -362,31 +280,8 @@
                     <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
                 </div>
             </div>
-{##}
-{#            <!-- Модальное окно -->#}
-{#            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"#}
-{#                 aria-hidden="true">#}
-{#                <div class="modal-dialog modal-dialog-centered">#}
-{#                    <div class="modal-content">#}
-{#                        <div class="modal-header">#}
-{#                            <h1 class="modal-title fs-5" id="exampleModalLabel">Заголовок модального окна</h1>#}
-{#                            <button type="button" class="btn-close" data-bs-dismiss="modal"#}
-{#                                    aria-label="Закрыть"></button>#}
-{#                        </div>#}
-{#                        <div class="modal-body">#}
-{#                            ...#}
-{#                        </div>#}
-{#                        <div class="modal-footer">#}
-{#                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>#}
-{#                            <button type="button" class="btn btn-primary">Сохранить изменения</button>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <script src="{{ url_for('static', filename="script1.js") }}"></script>#}
         {% endif %}
     {% endfor %}
-
     <h1 class="text-center" style="font-size: 55px" id="drinks">Напитки</h1>
     {% for item in food %}
         {% if item.type == 'напиток' %}
@@ -401,28 +296,6 @@
                     <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
                 </div>
             </div>
-
-            <!-- Модальное окно -->
-{#            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"#}
-{#                 aria-hidden="true">#}
-{#                <div class="modal-dialog modal-dialog-centered">#}
-{#                    <div class="modal-content">#}
-{#                        <div class="modal-header">#}
-{#                            <h1 class="modal-title fs-5" id="exampleModalLabel">Заголовок модального окна</h1>#}
-{#                            <button type="button" class="btn-close" data-bs-dismiss="modal"#}
-{#                                    aria-label="Закрыть"></button>#}
-{#                        </div>#}
-{#                        <div class="modal-body">#}
-{#                            ...#}
-{#                        </div>#}
-{#                        <div class="modal-footer">#}
-{#                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>#}
-{#                            <button type="button" class="btn btn-primary">Сохранить изменения</button>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <script src="{{ url_for('static', filename="script1.js") }}"></script>#}
         {% endif %}
     {% endfor %}
 {% endblock %}
