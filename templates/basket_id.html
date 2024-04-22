@@ -6,9 +6,13 @@
     display: block;
     margin-left: auto;
     margin-right: auto }
+            .Absolute-Center
+{
+width: 100%;
+text-align: center;
+}
         </style>
     {% if current_user.is_authenticated %}
-        <a class="btn btn-primary btn-lg" href="/food/{{ id }}">Вернуться обратно</a>
         <h1 class="text-center" style="font-size: 80px">Корзина</h1>
         {% for item in ids %}
             {% for prod in food %}
@@ -33,9 +37,12 @@
             {% endfor %}
         {% endfor %}
         <nav class="navbar fixed-bottom navbar-light bg-light">
-        <a class="btn btn-info displayed btn-lg" href="/food/{{ id }}">Купить</a>
+        <div class="btn-group displayed">
+        <a class="btn btn-primary btn-lg" style="position: relative;" href="/buying">Купить</a>
+        <a class="btn btn-info btn-lg" style="position: relative;" href="/food/{{ id }}">Вернуться обратно</a>
+        </div>
     {% else %}
-        <a class="btn btn-info btn-lg displayed" href="/food/{{ id }}">Вернуться обратно</a>
+        <a class="btn btn-primary btn-lg displayed" href="/food/{{ id }}">Вернуться обратно</a>
         <h5 class='displayed' style="font-size: 60px">Сначала необходимо авторизоваться</h5>
         <img class='displayed' src="{{ url_for('static', filename='img/autorisation.png') }}"
                                      alt="здесь должна была быть картинка, но не нашлась" width="300" height="300">

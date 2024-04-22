@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, request, abort, make_respons
 from data import db_session, jobs_api
 from data.users import User
 from data.food import Food
+from data.purchase import Purchase
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from data.logf import LoginForm
 from forms.user import RegisterForm
@@ -86,6 +87,7 @@ def main():
             user = db_sess.query(User).filter(User.email == form.email.data).first()
             if user and user.check_password(form.password.data):
                 login_user(user, remember=form.remember_me.data)
+                user.basket = ' '
                 return redirect("/")
             return render_template('login.html',
                                    message="Неправильный логин или пароль",
@@ -131,68 +133,55 @@ def main():
         ids = [int(i) for i in ids]
         ids = ids[::-1]
         return render_template("basket.html", ids=ids, food=food, user=userr)
-    #
-    # @app.route('/jobs/<int:id>', methods=['GET', 'POST'])
-    # @login_required
-    # def edit_jobs(id):
-    #     form = JobsForm()
-    #     if request.method == "GET":
-    #         db_sess = db_session.create_session()
-    #         userr = 0
-    #         for i in db_sess.query(User).filter(User.id == 1):
-    #             userr = i
-    #         jobs = db_sess.query(Jobs).filter((Jobs.id == id), ((Jobs.user == userr) |
-    #                                                             (Jobs.user == current_user))
-    #                                           ).first()
-    #         if jobs:
-    #             form.title.data = jobs.job
-    #             form.team_leader.data = jobs.team_leader
-    #             k = jobs.work_size
-    #             form.work_size.data = str(k)
-    #             form.collaborators.data = jobs.collaborators
-    #             form.is_finished.data = jobs.is_finished
-    #         else:
-    #             abort(404)
-    #     if form.validate_on_submit():
-    #         db_sess = db_session.create_session()
-    #         userr = 0
-    #         for i in db_sess.query(User).filter(User.id == 1):
-    #             userr = i
-    #         jobs = db_sess.query(Jobs).filter((Jobs.id == id), ((Jobs.user == userr) |
-    #                                                             (Jobs.user == current_user))
-    #                                           ).first()
-    #         if jobs:
-    #             jobs.job = form.title.data
-    #             jobs.team_leader = form.team_leader.data
-    #             k = form.work_size.data
-    #             jobs.work_size = int(k)
-    #             jobs.collaborators = form.collaborators.data
-    #             jobs.is_finished = form.is_finished.data
-    #             db_sess.commit()
-    #             return redirect('/')
-    #         else:
-    #             abort(404)
-    #     return render_template('jobs.html',
-    #                            title='Edit job',
-    #                            form=form
-    #                            )
-    #
-    # @app.route('/jobs_delete/<int:id>', methods=['GET', 'POST'])
-    # @login_required
-    # def jobs_delete(id):
-    #     db_sess = db_session.create_session()
-    #     userr = 0
-    #     for i in db_sess.query(User).filter(User.id == 1):
-    #         userr = i
-    #     jobs = db_sess.query(Jobs).filter((Jobs.id == id), ((Jobs.user == userr) |
-    #                                       (Jobs.user == current_user))
-    #                                       ).first()
-    #     if jobs:
-    #         db_sess.delete(jobs)
-    #         db_sess.commit()
-    #     else:
-    #         abort(404)
-    #     return redirect('/')
+
+    @app.route('/buying', methods=['GET', 'POST'])
+    def buying():
+        form = FoodForm()
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        ids = user.basket.split()
+        ids = [int(i) for i in ids]
+        price = 0
+        names = []
+        for i in ids:
+            good = db_sess.query(Food).filter(Food.id == i).first()
+            names.append(good.name)
+        names = ', '.join(names)
+        for i in ids:
+            food = db_sess.query(Food).filter(Food.id == i).first()
+            price += int(food.price.split()[0])
+        if request.method == "GET":
+            return render_template('buying.html', form=form, price=price)
+        else:
+            if form.validate_on_submit():
+                db_sess = db_session.create_session()
+                buying = Purchase()
+                buying.name = str(form.name.data)
+                buying.number = str(form.number.data)
+                buying.purchase = names
+                buying.price = str(price)
+                buying.id_buyer = int(user.id)
+                buying.address = form.address.data
+                db_sess.add(buying)
+                db_sess.commit()
+                return redirect('/purchases')
+            else:
+                mess = "Error"
+                return render_template('buying.html', form=form, price=price, message=mess)
+
+    @app.route('/purchases')
+    def purchases():
+        db_sess = db_session.create_session()
+        purchase = db_sess.query(Purchase).all()
+        userr = db_sess.query(User).all()
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        purch = []
+        for i in purchase:
+            if i.id_buyer == user.id:
+                purch.append(i)
+        if len(purch) == 0:
+            return render_template("purchases.html", purch=purch, purchases=purchase, user=userr, message='Пока никаких покупок не совершено')
+        return render_template("purchases.html", purch=purch, purchases=purchase, user=userr, message=' ')
 
     # @app.errorhandler(404)
     # def not_found(error):
