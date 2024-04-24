@@ -8,32 +8,34 @@
             margin-right: auto
         }
     </style>
-    <h1 class="text-center" style="font-size: 80px">Мои покупки</h1>
-    {% if message == ' ' %}
-        {% for item in purch %}
-                    <div class="card text-center">
-                        <div class="card-header" style="font-size: 25px">
-                            Покупка
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title" style="font-size: 30px">Товары</h5>
-                            <p class="card-text" style="font-size: 25px">{{ item.purchase }}</p>
-                            <h5 class="card-title" style="font-size: 30px">Адрес</h5>
-                            <p class="card-text" style="font-size: 25px">{{ item.address }}</p>
-                            <h5 class="card-title" style="font-size: 30px">Покупатель</h5>
-                            <p class="card-text" style="font-size: 25px">{{ item.name }} {{ item.number }}</p>
-                        </div>
-                        <div class="card-footer text-muted">
-                            {{ item.created_date}}
-                        </div>
+
+    <div class="container">
+        <h1 class="text-center" style="font-size: 80px">Мои покупки</h1>
+        {% if message == ' ' %}
+            {% for item in purch %}
+                <div class="card text-center mb-3">
+                    <div class="card-header" style="font-size: 25px">
+                        Покупка
                     </div>
-        {% endfor %}
-    {% else %}
-        <br>
-        <h5 class='text-center displayed' style="font-size: 60px">Вы ещё не совершали покупок</h5>
-        <br>
-        <img class='displayed' src="{{ url_for('static', filename='img/no_purchases.png') }}"
-             alt="здесь должна была быть картинка, но не нашлась" width="300" height="300">
-    {% endif %}
-</nav>
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-size: 30px">Товары</h5>
+                        <p class="card-text" style="font-size: 25px">{{ item.purchase }}</p>
+                        <h5 class="card-title" style="font-size: 30px">Адрес</h5>
+                        <p class="card-text" style="font-size: 25px">{{ item.address }}</p>
+                        <h5 class="card-title" style="font-size: 30px">Покупатель</h5>
+                        <p class="card-text" style="font-size: 25px">{{ item.name }} {{ item.number }}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {{ item.created_date }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <br>
+            <h5 class='text-center displayed' style="font-size: 60px">Вы ещё не совершали покупок</h5>
+            <br>
+            <img class='displayed' src="{{ url_for('static', filename='img/no_purchases.png') }}"
+                 alt="здесь должна была быть картинка, но не нашлась" width="300" height="300">
+        {% endif %}
+    </div>
 {% endblock %}}

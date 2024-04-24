@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 class="text-center" style="font-size: 80px">FoodExpress</h1>
     <style>
         html {
             font-family: sans-serif;
@@ -75,13 +74,19 @@
             top: 0;
         }
 
+        .dots {
+            display: flex;
+            justify-content: center;
+            user-select: none;
+        }
+
         /* The dots/bullets/indicators */
         .dot {
             cursor: pointer;
             height: 15px;
             width: 15px;
             margin: 0 2px;
-            background-color: #bbb;
+            background: #ddd;
             border-radius: 50%;
             display: inline-block;
             transition: background-color 0.6s ease;
@@ -125,40 +130,69 @@
             margin: 16px;
 
             .displayed {
-    display: block;
-    margin-left: auto;
-    margin-right: auto }
+                display: block;
+                margin-left: auto;
+                margin-right: auto
+            }
+        }
+
+        .image-cont {
+            position: relative;
+        }
+
+        .main-title {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            transform: translateX(-50%);
+            color: white;
+            text-shadow: 2px 2px 4px black;
+        }
+
+        .food-image {
+            width: 100%;
+            height: 75vh;
+            object-fit: cover;
+        }
+
+        .active-2 {
+            background-color: #bbb;
+        }
+
+        .category-title {
+            margin-top: .5em;
+            flex-basis: 100%;
         }
     </style>
-    <div class="slideshow-container displayed">
+    <div class="image-cont">
+        <h1 class="main-title" style="font-size: 80px">FoodExpress</h1>
         <div class="mySlides">
             <div class="numbertext">1 / 3</div>
             <img src="{{ url_for('static', filename='img/pic1.jpeg') }}"
-                 alt="здесь должна была быть картинка, но не нашлась" style="width:100%">
+                 alt="здесь должна была быть картинка, но не нашлась" class="food-image">
             <div class="text"></div>
         </div>
 
         <div class="mySlides">
             <div class="numbertext">2 / 3</div>
             <img src="{{ url_for('static', filename='img/pic2.jpeg') }}"
-                 alt="здесь должна была быть картинка, но не нашлась" style="width:100%">
+                 alt="здесь должна была быть картинка, но не нашлась"  class="food-image">
             <div class="text"></div>
         </div>
 
         <div class="mySlides">
             <div class="numbertext">3 / 3</div>
             <img src="{{ url_for('static', filename='img/pic3.jpeg') }}"
-                 alt="здесь должна была быть картинка, но не нашлась" style="width:100%">
+                 alt="здесь должна была быть картинка, но не нашлась"  class="food-image">
             <div class="text"></div>
         </div>
 
         <a class="prev" onclick="plusSlides(-1)">❮</a>
         <a class="next" onclick="plusSlides(1)">❯</a>
-
     </div>
     <br>
 
-    <div style="text-align:center">
+    <div class="dots">
         <span class="dot" onclick="currentSlide(1)"></span>
         <span class="dot" onclick="currentSlide(2)"></span>
         <span class="dot" onclick="currentSlide(3)"></span>
@@ -190,95 +224,98 @@
                 slides[i].style.display = "none";
             }
             for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
+                dots[i].className = dots[i].className.replace(" active-2", "");
             }
             slides[slideIndex - 1].style.display = "block";
-            dots[slideIndex - 1].className += " active";
+            dots[slideIndex - 1].className += " active-2";
         }
     </script>
-    <h1 class="text-center" style="font-size: 80px" id="menu">Меню</h1>
-    <h1 class="text-center" style="font-size: 55px" id="salads">Салаты</h1>
-    {% for item in food %}
-        {% if item.type == 'салат' %}
-            {% set a = item.name + "0" %}
-            {% set b = '#' + item.name + "0" %}
-            <div class="card" style="width: 15rem;">
-                <img src="{{ url_for('static', filename=item.image) }}"
-                     alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
-                    <p class="card-text">{{ item.about }}</p>
-                    <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+{#    <h1 class="text-center" style="font-size: 80px" id="menu">Меню</h1>#}
+    <div class="container d-flex flex-wrap justify-content-center">
+    <h1 class="text-center category-title" style="font-size: 55px" id="salads">Салаты</h1>
+        {% for item in food %}
+            {% if item.type == 'салат' %}
+                {% set a = item.name + "0" %}
+                {% set b = '#' + item.name + "0" %}
+                <div class="card d-flex flex-column" style="width: 15rem;">
+                    <img src="{{ url_for('static', filename=item.image) }}"
+                         alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
+                    <div class="card-body flex-fill d-flex flex-column justify-content-between">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
+                        <p class="card-text">{{ item.about }}</p>
+                        <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+                    </div>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
 
-    <h1 class="text-center" style="font-size: 55px" id="hot">Горячее</h1>
-    {% for item in food %}
-        {% if item.type == 'горячее' %}
-            <div class="card" style="width: 15rem;">
-                <img src="{{ url_for('static', filename=item.image) }}"
-                     alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
-                {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
-                      <p class="card-text">{{ item.about }}</p>
-                    <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+        <h1 class="text-center category-title" style="font-size: 55px" id="hot">Горячее</h1>
+        {% for item in food %}
+            {% if item.type == 'горячее' %}
+                <div class="card d-flex flex-column" style="width: 15rem;">
+                    <img src="{{ url_for('static', filename=item.image) }}"
+                         alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
+                    {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
+                    <div class="card-body flex-fill d-flex flex-column justify-content-between">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
+                        <p class="card-text">{{ item.about }}</p>
+                        <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+                    </div>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
 
-    <h1 class="text-center" style="font-size: 55px" id="soups">Супы</h1>
-    {% for item in food %}
-        {% if item.type == 'суп' %}
-            <div class="card" style="width: 15rem;">
-                <img src="{{ url_for('static', filename=item.image) }}"
-                     alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
-                {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
-                     <p class="card-text">{{ item.about }}</p>
-                    <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+        <h1 class="text-center category-title" style="font-size: 55px" id="soups">Супы</h1>
+        {% for item in food %}
+            {% if item.type == 'суп' %}
+                <div class="card d-flex flex-column" style="width: 15rem;">
+                    <img src="{{ url_for('static', filename=item.image) }}"
+                         alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
+                    {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
+                    <div class="card-body flex-fill d-flex flex-column justify-content-between">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
+                        <p class="card-text">{{ item.about }}</p>
+                        <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+                    </div>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
 
-    <h1 class="text-center" style="font-size: 55px" id="deserts">Десерты</h1>
-    {% for item in food %}
-        {% if item.type == 'десерт' %}
-            <div class="card" style="width: 15rem;">
-                <img src="{{ url_for('static', filename=item.image) }}"
-                     alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
-                {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
-                    <p class="card-text">{{ item.about }}</p>
-                    <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+        <h1 class="text-center category-title" style="font-size: 55px" id="deserts">Десерты</h1>
+        {% for item in food %}
+            {% if item.type == 'десерт' %}
+                <div class="card d-flex flex-column" style="width: 15rem;">
+                    <img src="{{ url_for('static', filename=item.image) }}"
+                         alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
+                    {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
+                    <div class="card-body flex-fill d-flex flex-column justify-content-between">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
+                        <p class="card-text">{{ item.about }}</p>
+                        <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+                    </div>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
-    <h1 class="text-center" style="font-size: 55px" id="drinks">Напитки</h1>
-    {% for item in food %}
-        {% if item.type == 'напиток' %}
-            <div class="card" style="width: 15rem;">
-                <img src="{{ url_for('static', filename=item.image) }}"
-                     alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
-                {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
-                                <p class="card-text">{{ item.about }}</p>
-                    <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+            {% endif %}
+        {% endfor %}
+
+        <h1 class="text-center category-title" style="font-size: 55px" id="drinks">Напитки</h1>
+        {% for item in food %}
+            {% if item.type == 'напиток' %}
+                <div class="card d-flex flex-column" style="width: 15rem;">
+                    <img src="{{ url_for('static', filename=item.image) }}"
+                         alt="здесь должна была быть картинка, но не нашлась" class="card-img-top">
+                    {#  <img src="/static/img/{{item.image}}" class="card-img-top" alt="Картинка">#}
+                    <div class="card-body flex-fill d-flex flex-column justify-content-between">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Состав</h6>
+                        <p class="card-text">{{ item.about }}</p>
+                        <a class="btn btn-primary" href="/food/{{ item.id }}">Выбрать</a>
+                    </div>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}

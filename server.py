@@ -8,8 +8,6 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from data.logf import LoginForm
 from forms.user import RegisterForm
 from forms.food import FoodForm
-from data import users_resource, jobs_resource
-from flask_restful import reqparse, abort, Api
 
 app = Flask(__name__)
 
@@ -148,6 +146,7 @@ def buying():
             db_sess.commit()
             return redirect('/purchases')
         else:
+
             mess = "Error"
             return render_template('buying.html', form=form, price=price, message=mess)
 
@@ -168,5 +167,6 @@ def purchases():
 
 
 if __name__ == '__main__':
+    # app.run(port=8080, host='127.0.0.1', debug=True)
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
