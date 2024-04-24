@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style type="text/css">
+        .displayed {
+            display: block;
+            margin-left: auto;
+            margin-right: auto
+        }
+    </style>
+    <div class="container">
+        <h1 class="text-center" style="font-size: 80px">Корзина</h1>
+        {% if current_user.is_authenticated %}
+            {% for item in ids %}
+                {% for prod in food %}
+                    {% if prod.id == item %}
+                        <div class="card mb-3 displayed" style="max-width: 1000px;">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{{ url_for('static', filename=prod.image) }}"
+                                         alt="здесь должна была быть картинка, но не нашлась" width="300" height="300">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="font-size: 30px">{{ prod.name }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted" style="font-size: 30px">Состав</h6>
+                                        <p class="card-text" style="font-size: 20px">{{ prod.about }}</p>
+                                        <p class="card-text" style="font-size: 20px">{{ prod.price }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            <nav class="navbar fixed-bottom navbar-light bg-light">
+                <a class="btn btn-primary displayed btn-lg" href="/buying">Купить</a>
+            </nav>
+        {% else %}
+            <h5 class='displayed' style="font-size: 60px">Сначала необходимо авторизоваться</h5>
+            <img class='displayed' src="{{ url_for('static', filename='img/autorisation.png') }}"
+                 alt="здесь должна была быть картинка, но не нашлась" width="300" height="300">
+        {% endif %}
+    </div>
+
+{% endblock %}}

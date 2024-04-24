@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <title>FoodExpress</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-light bg-light px-3">
+        <a class="navbar-brand" href="/" style="font-size: 30px">
+            <img src="{{ url_for('static', filename='img/icon.png') }}" width="60" height="60" alt="">
+            <span class="pt-3">FoodExpress</span>
+        </a>
+        <div class="dropdown ps-3 flex-fill">
+            <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                Меню
+            </button>
+            <ul class="dropdown-menu dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="/#salads" style="font-size: 30px">Салаты</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/#hot" style="font-size: 30px">Горячее</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/#soups" style="font-size: 30px">Супы</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/#deserts" style="font-size: 30px">Десерты</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/#drinks" style="font-size: 30px">Напитки</a>
+                </li>
+            </ul>
+        </div>
+        {% if current_user.is_authenticated %}
+            <ul class="nav d-flex align-items-center me-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="/basket" style="font-size: 30px">Корзина</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/purchases" style="font-size: 30px">Покупки</a>
+                </li>
+            </ul>
+            <a class="navbar-brand" href="/logout" style="font-size: 30px">{{ current_user.name }}</a>
+        {% else %}
+            <div class="d-flex align-items-center gap-3">
+                <a class="btn btn-primary " href="/register" style="font-size: 25px; vertical-align: center">Зарегистрироваться</a>
+                <a class="btn btn-success" href="/login" style="font-size: 25px; vertical-align: center">Войти</a>
+            </div>
+        {% endif %}
+    </nav>
+    <nav>
+    </nav>
+</header>
+<!-- Begin page content -->
+<main role="main">
+    {% block content %}{% endblock %}
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
