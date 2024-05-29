@@ -37,8 +37,12 @@
                             <td style="font-size: 50px"></td>
                         </tr>
                     </table>
-                    <a class="btn btn-primary btn-lg" href="/basket/{{ id }}">Добавить в корзину</a>
-                    <h4 class="white-space-pre"></h4>
+                    {% if current_user.is_authenticated %}
+                        <a class="btn btn-primary btn-lg" href="/basket/{{ id }}">Добавить в корзину</a>
+                    {% else %}
+                        <a class="btn btn-primary btn-lg" href="/basket">Добавить в корзину</a>
+                    {% endif %}
+                    <h4 class="white-space-pre">      </h4>
                     <h4 style="font-size: 45px">О продукте:</h4>
                     <h4 style="font-size: 40px" class="card-subtitle mb-2 text-muted">Состав</h4>
                     <h4 style="font-size: 30px">{{ food.about }}</h4>

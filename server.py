@@ -105,25 +105,27 @@ def logout():
 
 @app.route('/basket')
 def basket():
-    db_sess = db_session.create_session()
-    food = db_sess.query(Food).all()
-    userr = db_sess.query(User).all()
-    basket = db_sess.query(Basket).all()
-    baskets = []
-    price = 0
-    for i in basket:
-        if i.id_user == current_user.id:
-            baskets.append(i)
-    if baskets == []:
-        baskets = 'Nothing'
-    else:
-        for j in baskets:
-            id_of_product = j.id_product
-            for i in food:
-                if i.id == id_of_product:
-                    price += int(i.price.split()[0])
-        baskets = baskets[::-1]
-    return render_template("basket.html", baskets=baskets, food=food, user=userr, price=price)
+    if current_user.is_authenticated:
+        db_sess = db_session.create_session()
+        food = db_sess.query(Food).all()
+        userr = db_sess.query(User).all()
+        basket = db_sess.query(Basket).all()
+        baskets = []
+        price = 0
+        for i in basket:
+            if i.id_user == current_user.id:
+                baskets.append(i)
+        if baskets == []:
+            baskets = 'Nothing'
+        else:
+            for j in baskets:
+                id_of_product = j.id_product
+                for i in food:
+                    if i.id == id_of_product:
+                        price += int(i.price.split()[0])
+            baskets = baskets[::-1]
+        return render_template("basket.html", baskets=baskets, food=food, user=userr, price=price)
+    return render_template("basket.html")
 
 @app.route('/buying', methods=['GET', 'POST'])
 def buying():
@@ -200,6 +202,6 @@ def delete_item(id):
     return redirect('/basket')
 
 if __name__ == '__main__':
-    # app.run(port=8080, host='127.0.0.1', debug=True)
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(port=8080, host='127.0.0.1', debug=True)
+    # port = int(os.environ.get("PORT", 5000))
+    # app.run(host='0.0.0.0', port=port)
