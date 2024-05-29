@@ -13,22 +13,25 @@
         <h1 class="text-center" style="font-size: 80px">Мои покупки</h1>
         {% if message == ' ' %}
             {% for item in purch %}
-                <div class="card text-center mb-3">
-                    <div class="card-header" style="font-size: 25px">
+                <h1 class="text-center" style="font-size: 50px; color: grey">{{ item }}</h1>
+                {% for good in purch[item] %}
+                <div class="card border-primary mb-3 displayed text-center">
+                    <div class="card-header" style="font-size: 25px; color: #0d6efd">
                         Покупка
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title" style="font-size: 30px">Товары</h5>
-                        <p class="card-text" style="font-size: 25px">{{ item.purchase }}</p>
-                        <h5 class="card-title" style="font-size: 30px">Адрес</h5>
-                        <p class="card-text" style="font-size: 25px">{{ item.address }}</p>
-                        <h5 class="card-title" style="font-size: 30px">Покупатель</h5>
-                        <p class="card-text" style="font-size: 25px">{{ item.name }} {{ item.number }}</p>
+                        <p class="card-title" style="font-size: 25px; color: grey">Товары</p>
+                        <h5 class="card-text" style="font-size: 35px">{{ good.purchase }}</h5>
+                        <p class="card-title" style="font-size: 25px; color: grey">Адрес</p>
+                        <h5 class="card-text" style="font-size: 35px">{{ good.address }}</h5>
+                        <p class="card-title" style="font-size: 25px; color: grey">Покупатель</p>
+                        <h5 class="card-text" style="font-size: 35px">{{ good.name }} ({{ good.number }})</h5>
                     </div>
                     <div class="card-footer text-muted">
-                        {{ item.created_date }}
+                        {{ good.created_time }}
                     </div>
                 </div>
+                    {% endfor %}
             {% endfor %}
         {% else %}
             <br>

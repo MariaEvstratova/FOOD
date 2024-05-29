@@ -16,5 +16,7 @@ class Purchase(SqlAlchemyBase, SerializerMixin):
     purchase = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     address = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     id_buyer = sqlalchemy.Column(sqlalchemy.Integer)
-    created_date = sqlalchemy.Column(sqlalchemy.DateTime,
-                                     default=datetime.datetime.now)
+    created_date = sqlalchemy.Column(sqlalchemy.String,
+                                     default=datetime.datetime.now().strftime('%Y-%m-%d'))
+    created_time = sqlalchemy.Column(sqlalchemy.String,
+                                     default=f"{datetime.datetime.now().hour}:{datetime.datetime.now().minute}")

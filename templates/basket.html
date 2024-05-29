@@ -11,35 +11,53 @@
     <div class="container">
         <h1 class="text-center" style="font-size: 80px">Корзина</h1>
         {% if current_user.is_authenticated %}
-            {% for item in ids %}
-                {% for prod in food %}
-                    {% if prod.id == item %}
-                        <div class="card mb-3 displayed" style="max-width: 1000px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="{{ url_for('static', filename=prod.image) }}"
-                                         alt="здесь должна была быть картинка, но не нашлась" width="300" height="300">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title" style="font-size: 30px">{{ prod.name }}</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted" style="font-size: 30px">Состав</h6>
-                                        <p class="card-text" style="font-size: 20px">{{ prod.about }}</p>
-                                        <p class="card-text" style="font-size: 20px">{{ prod.price }}</p>
+            {% if baskets != 'Nothing' %}
+                {% for item in baskets %}
+                    {% for prod in food %}
+                        {% if prod.id == item.id_product %}
+                            <div class="card mb-3 displayed" style="max-width: 1000px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{{ url_for('static', filename=prod.image) }}"
+                                             alt="здесь должна была быть картинка, но не нашлась" width="300"
+                                             height="300">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title" style="font-size: 30px">{{ prod.name }}</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted" style="font-size: 30px">
+                                                Состав</h6>
+                                            <p class="card-text" style="font-size: 20px">{{ prod.about }}</p>
+                                            <p class="card-text" style="font-size: 20px">{{ prod.price }}</p>
+                                            <a type="button" class="btn btn-primary" href="/delete_item/{{ item.id }}">Удалить</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-            <nav class="navbar fixed-bottom navbar-light bg-light">
-                <a class="btn btn-primary displayed btn-lg" href="/buying">Купить</a>
-            </nav>
+                <nav class="navbar fixed-bottom navbar-light bg-light" style="text-align: center">
+                <div class="displayed">
+                    <a class="btn btn-primary btn-lg" href="/buying">Купить</a>
+                    <a style="font-size: 25px">{{ price }} рублей</a>
+                </div>
+                </nav>
+            {% else %}
+                <br/>
+                <img class='displayed' src="{{ url_for('static', filename='img/empty_basket.png') }}"
+                     alt="здесь должна была быть картинка, но не нашлась" width="300" height="300">
+                <br/>
+                <h5 class="text-center" style="font-size: 40px; color: grey">Корзина пуста</h5>
+                <h5 class="text-center" style="font-size: 30px; color: grey">Тут появятся товары, которые вы
+                    закажете.</h5>
+            {% endif %}
         {% else %}
-            <h5 class='displayed' style="font-size: 60px">Сначала необходимо авторизоваться</h5>
+            <br/>
             <img class='displayed' src="{{ url_for('static', filename='img/autorisation.png') }}"
                  alt="здесь должна была быть картинка, но не нашлась" width="300" height="300">
+            <br/>
+            <h5 class='text-center' style="font-size: 40px; color: grey">Сначала необходимо авторизоваться ;(</h5>
         {% endif %}
     </div>
 
