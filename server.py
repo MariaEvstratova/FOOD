@@ -48,7 +48,6 @@ def basket_id(id):
     db_sess = db_session.create_session()
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id).first()
-        user.basket += ' ' + str(id)
         baskett = Basket()
         baskett.id_product = id
         baskett.id_user = user.id
