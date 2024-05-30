@@ -185,7 +185,7 @@ def purchases():
     if len(purch) == 0:
         return render_template("purchases.html", purch=purch, purchases=purchase, user=userr,
                                    message='Пока никаких покупок не совершено')
-    purch = dict(sorted(purch.items()))
+    purch = dict(sorted(purch.items(), reverse=True))
     print(purch)
     return render_template("purchases.html", purch=purch, purchases=purchase, user=userr, message=' ')
 
