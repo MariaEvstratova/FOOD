@@ -14,7 +14,7 @@
         }
 
         .input-form {
-            width: 700px;
+            width: min(700px, calc(100% - 32px));
         }
     </style>
     <div class="container d-flex flex-column align-items-center">
@@ -39,7 +39,7 @@
                     </p>
                 {% endfor %}
             </p>
-        <div>{{ message }}</div>
+            <div>{{ message }}</div>
             <p>
                 {{ form.address.label(style="font-size: 30px") }}<br>
                 {{ form.address(class="form-control", id="address-input") }}<br>
@@ -48,17 +48,15 @@
                         {{ error }}
                     </p>
                 {% endfor %}
-            <div id="app" class="displayed" style="width: 600px; height: 400px"></div>
+            <div id="app" class="displayed" style="max-width: 600px; height: 400px"></div>
             <script src="https://api-maps.yandex.ru/v3/?apikey=a65982a6-8503-4ac0-89a5-ac260801a67d&lang=ru_RU"></script>
             <script src="https://api-maps.yandex.ru/2.1/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&lang=ru_RU"
                     type="text/javascript">
             </script>
             <script src="{{ url_for('static', filename="map.js") }}"></script>
             </p>
-            <nav class="navbar fixed-bottom navbar-light bg-light">
-                <div class="btn-group displayed">
-                    <p>{{ form.submit(type="submit", class="btn btn-primary btn-lg", style="display: block; margin-left: auto; margin-right: auto") }}</p>
-                </div>
+            <nav class="d-flex align-items-center justify-content-center p-3 navbar fixed-bottom navbar-light bg-light">
+                <div>{{ form.submit(type="submit", class="btn btn-primary btn-lg") }}</div>
             </nav>
         </form>
     </div>
