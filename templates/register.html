@@ -14,10 +14,20 @@
         }
 
         .input-form {
-            width: 700px;
+            width: min(700px, calc(100% - 32px));
+        }
+
+        .register-title {
+            font-size: 80px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .register-title {
+                font-size: 60px;
+            }
         }
     </style>
-    <h1 class="text-center" style="font-size: 80px">Регистрация</h1>
+    <h1 class="text-center register-title">Регистрация</h1>
     <div class="container container d-flex flex-column align-items-center">
         <form action="" class="input-form" method="post">
             {{ form.hidden_tag() }}
