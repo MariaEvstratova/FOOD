@@ -263,14 +263,14 @@
     {#    <h1 class="text-center" style="font-size: 80px" id="menu">Меню</h1>#}
     <div class="sections-cont">
         {% for section in (
-        {"type": "салат", "name": "Салаты"},
-        {"type": "горячее", "name": "Горячее"},
-        {"type": "суп", "name": "Супы"},
-        {"type": "десерт", "name": "Десерты"},
-        {"type": "напиток", "name": "Напитки"},
+        {"type": "салат", "name": "Салаты", "id": "salads"},
+        {"type": "горячее", "name": "Горячее", "id": "hot"},
+        {"type": "суп", "name": "Супы", "id": "soups"},
+        {"type": "десерт", "name": "Десерты", "id": "deserts"},
+        {"type": "напиток", "name": "Напитки", "id": "drinks"},
     ) %}
             <section>
-                <h1 class="text-center category-title" style="font-size: 55px" id="salads">{{ section["name"] }}</h1>
+                <h1 class="text-center category-title" style="font-size: 55px" id="{{ section["id"] }}">{{ section["name"] }}</h1>
                 <div class="section__goods">
                     {% for item in food %}
                         {% if item.type == section["type"] %}
