@@ -16,25 +16,67 @@
             .white-space-pre {
                 white-space: pre; /* Сохраняем каждый пробел */
             }
+            @media only screen and (max-width: 480px) {
+            .souz {
+                width: 100%;
+                height: 100%;
+            }
+                .shrift {
+                font-size: 30px
+            }
+            .shrift1 {
+                font-size: 25px
+            }
+            .shrift2 {
+                font-size: 20px
+            }
+        }
+            @media screen and (max-width: 2000px) {
+            .shrift {
+                font-size: 50px
+            }
+            .shrift1 {
+                font-size: 40px
+            }
+            .shrift2 {
+                font-size: 30px
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .souz {
+                width: 100%;
+                height: 100%;
+            }
+            .shrift {
+                font-size: 30px
+            }
+            .shrift1 {
+                font-size: 25px
+            }
+            .shrift2 {
+                font-size: 20px
+            }
+        }
         </style>
     </head>
     <body>
     <div class="container">
         <div class="text-center">
-            <h5 style="font-size: 60px">{{ food.name }}</h5>
+            <h5 class="shrift">{{ food.name }}</h5>
             <br/>
         </div>
         <table width="100%" cellspacing="0" cellpadding="0">
             <tr>
-                <td class="leftcol"><img class="rounded" src="{{ url_for('static', filename=food.image) }}" width="500"
+                <td class="leftcol"><img class="rounded souz" src="{{ url_for('static', filename=food.image) }}" width="500"
                                          height="500"
                                          alt="..."></td>
                 <td class="white-space-pre">        </td>
                 <td valign="top">
                     <table width="100%" cellspacing="0" cellpadding="0">
                         <tr>
-                            <td style="font-size: 50px">{{ food.price }}</td>
-                            <td style="font-size: 50px"></td>
+                            <td class="shrift">{{ food.price }}</td>
+                            <td class="shrift"></td>
                         </tr>
                     </table>
                     {% if current_user.is_authenticated %}
@@ -43,12 +85,12 @@
                         <a class="btn btn-primary btn-lg" href="/basket">Добавить в корзину</a>
                     {% endif %}
                     <h4 class="white-space-pre">      </h4>
-                    <h4 style="font-size: 45px">О продукте:</h4>
-                    <h4 style="font-size: 40px" class="card-subtitle mb-2 text-muted">Состав</h4>
-                    <h4 style="font-size: 30px">{{ food.about }}</h4>
+                    <h4 class="shrift1">О продукте:</h4>
+                    <h4 class="card-subtitle mb-2 text-muted shrift1">Состав</h4>
+                    <h4 class="shrift2">{{ food.about }}</h4>
                     <br/>
-                    <h4 style="font-size: 40px" class="card-subtitle mb-2 text-muted">Бренд</h4>
-                    <h4 style="font-size: 30px">FoodExpress</h4>
+                    <h4 class="card-subtitle mb-2 text-muted shrift2">Бренд</h4>
+                    <h4 class="shrift1">FoodExpress</h4>
                 </td>
             </tr>
         </table>
