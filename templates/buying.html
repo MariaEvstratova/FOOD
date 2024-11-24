@@ -37,9 +37,9 @@
                     <p class="alert alert-danger" role="alert">
                         {{ error }}
                     </p>
+                    <h5>{{ message }}</h5>
                 {% endfor %}
             </p>
-            <div>{{ message }}</div>
             <p>
                 {{ form.address.label(style="font-size: 30px") }}<br>
                 {{ form.address(class="form-control", id="address-input") }}<br>

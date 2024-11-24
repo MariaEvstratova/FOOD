@@ -25,6 +25,11 @@ def load_user(user_id):
     return db_sess.get(User, user_id)
 
 
+@app.route("/health")
+def health():
+    return '{"Up!"}'
+
+
 @app.route("/")
 def index():
     form = FoodForm()
@@ -148,6 +153,8 @@ def buying():
         return render_template('buying.html', form=form, price=price)
     else:
         if form.validate_on_submit():
+            if pr_number(str(form.number.data)) != 'OK':
+                return render_template('buying.html', form=form, price=price, message=pr_number(str(form.number.data)))
             db_sess = db_session.create_session()
             user = db_sess.query(User).filter(User.id == current_user.id).first()
             buying = Purchase()
@@ -200,33 +207,33 @@ def delete_item(id):
         abort(404)
     return redirect('/basket')
 
-# def pr_number(telephone_number):
-#     if telephone_number[:2] == '+7' or a[0] == 8:
-#         if telephone_number.count("(") <= 1 and telephone_number.count(")") <= 1:
-#             if telephone_number.count("(") == telephone_number.count(")"):
-#                 if "--" not in telephone_number:
-#                     if telephone_number[0] != '-' and telephone_number[-1] != '-':
-#                         if (telephone_number.find("(") < telephone_number.find(")") and
-#                             telephone_number.count("(") != 0) or (telephone_number.count("(") == 0 and
-#                                                                   telephone_number.count(")") == 0):
-#                             if len(a) == 11:
-#                                 return 'OK'
-#                             else:
-#                                 return
-#                         else:
-#                             return
-#                     else:
-#                         return
-#                 else:
-#                     return
-#             else:
-#                 return
-#         else:
-#             return
-#     else:
-#         return
+def pr_number(telephone_number):
+    if telephone_number[:2] == '+7' or telephone_number[0] == 8:
+        if telephone_number.count("(") <= 1 and telephone_number.count(")") <= 1:
+            if telephone_number.count("(") == telephone_number.count(")"):
+                if "--" not in telephone_number:
+                    if telephone_number[0] != '-' and telephone_number[-1] != '-':
+                        if (telephone_number.find("(") < telephone_number.find(")") and
+                            telephone_number.count("(") != 0) or (telephone_number.count("(") == 0 and
+                                                                  telephone_number.count(")") == 0):
+                            if len(telephone_number) == 11:
+                                return 'OK'
+                            else:
+                                return 'Номер должен состоять из 11 цифр, попробуйте ещё раз.'
+                        else:
+                            return 'Некорректно введён номер телефона, попробуйте ещё раз.'
+                    else:
+                        return 'Некорректно введён номер телефона, попробуйте ещё раз.'
+                else:
+                    return 'Некорректно введён номер телефона, попробуйте ещё раз.'
+            else:
+                return 'Некорректно введён номер телефона, попробуйте ещё раз.'
+        else:
+            return 'Некорректно введён номер телефона, попробуйте ещё раз.'
+    else:
+        return 'Некорректно введён номер телефона, попробуйте ещё раз.'
 
 if __name__ == '__main__':
-    # app.run(port=8080, host='127.0.0.1', debug=True)
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(port=8080, host='127.0.0.1', debug=True)
+    # port = int(os.environ.get("PORT", 5000))
+    # app.run(host='0.0.0.0', port=port)

@@ -1,5 +1,5 @@
 import datetime
-
+from datetime import time
 import sqlalchemy
 from sqlalchemy import orm
 from sqlalchemy_serializer import SerializerMixin
@@ -19,4 +19,4 @@ class Purchase(SqlAlchemyBase, SerializerMixin):
     created_date = sqlalchemy.Column(sqlalchemy.String,
                                      default=datetime.datetime.now().strftime('%Y-%m-%d'))
     created_time = sqlalchemy.Column(sqlalchemy.String,
-                                     default=f"{datetime.datetime.now().hour}:{datetime.datetime.now().minute}")
+                                     default=str(datetime.datetime.now().time())[:5])
