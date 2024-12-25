@@ -37,6 +37,7 @@ def index():
     db_sess = db_session.create_session()
     userr = db_sess.query(User).all()
     food = db_sess.query(Food).all()
+    db_sess.close()
     return render_template("index.html", food=food, user=userr, form=form, id=id)
 
 
@@ -45,6 +46,7 @@ def food(id):
     db_sess = db_session.create_session()
     userr = db_sess.query(User).all()
     food = db_sess.query(Food).filter(Food.id == id).first()
+    db_sess.close()
     return render_template("buy.html", food=food, user=userr, id=id)
 
 
@@ -58,6 +60,7 @@ def basket_id(id):
         baskett.id_user = user.id
         db_sess.add(baskett)
         db_sess.commit()
+        db_sess.close()
         return redirect('/basket')
 
 
@@ -70,7 +73,9 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             user.basket = ' '
+            db_sess.close()
             return redirect("/")
+        db_sess.close()
         return render_template('login.html',
                                message="Неправильный логин или пароль",
                                form=form)
@@ -87,6 +92,7 @@ def reqister():
                                    message="Пароли не совпадают")
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
+            db_sess.close()
             return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
@@ -97,6 +103,7 @@ def reqister():
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
+        db_sess.close()
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
 
@@ -128,6 +135,7 @@ def basket():
                     if i.id == id_of_product:
                         price += int(i.price.split()[0])
             baskets = baskets[::-1]
+        db_sess.close()
         return render_template("basket.html", baskets=baskets, food=food, user=userr, price=price)
     return render_template("basket.html")
 
@@ -170,9 +178,11 @@ def buying():
             for item in items:
                 db_sess.delete(item)
                 db_sess.commit()
+            db_sess.close()
             return redirect('/purchases')
         else:
             mess = "Error"
+            db_sess.close()
             return render_template('buying.html', form=form, price=price, message=mess)
 
 @app.route('/purchases')
@@ -190,10 +200,12 @@ def purchases():
                 purch[i.created_date].append(i)
                 purch[i.created_date] = purch[i.created_date][::-1]
     if len(purch) == 0:
+        db_sess.close()
         return render_template("purchases.html", purch=purch, purchases=purchase, user=userr,
                                    message='Пока никаких покупок не совершено')
     purch = dict(sorted(purch.items(), reverse=True))
     print(purch)
+    db_sess.close()
     return render_template("purchases.html", purch=purch, purchases=purchase, user=userr, message=' ')
 
 @app.route('/delete_item/<int:id>')
@@ -205,6 +217,7 @@ def delete_item(id):
         db_sess.commit()
     else:
         abort(404)
+    db_sess.close()
     return redirect('/basket')
 
 # def pr_number(telephone_number):
@@ -234,6 +247,6 @@ def delete_item(id):
 #         return 'Некорректно введён номер телефона, попробуйте ещё раз.'
 
 if __name__ == '__main__':
-    app.run(port=8080, host='127.0.0.1', debug=True)
-    # port = int(os.environ.get("PORT", 5000))
-    # app.run(host='0.0.0.0', port=port)
+    # app.run(port=8080, host='127.0.0.1', debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
